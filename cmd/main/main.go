@@ -24,7 +24,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/fumiama/go-docx"
 	"io"
 	"os"
 	"regexp"
