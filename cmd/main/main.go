@@ -34,6 +34,75 @@ import (
 )
 
 func main() {
+
+	readFile, err := os.Open("/Users/gq/GolandProjects/docx-genert/data/template.docx")
+	if err != nil {
+		panic(err)
+	}
+	fileinfo, err := readFile.Stat()
+	if err != nil {
+		panic(err)
+	}
+	size := fileinfo.Size()
+	doc, err := docx.Parse(readFile, size)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Plain text:")
+	for _, it := range doc.Document.Body.Items {
+		switch it.(type) {
+		case *docx.Paragraph: // printable
+			pit := it.(*docx.Paragraph)
+			fmt.Printf("Paragraph: %v\n", it)
+			fmt.Printf("Paragraph pit: %v\n", pit.Style("size"))
+		case *docx.Table:
+			fmt.Printf("table: %v\n", it)
+		}
+	}
+
+	doc.AddParagraph().Justification("center").AddText("中投证券股民个人信息泄露事件").Font("SimHei", "SimHei", "SimHei", "").Size("40").SizeCs("44")
+
+	f, err := os.Create("bak.docx")
+	doc.WriteTo(f)
+	w := doc
+	// add new paragraph
+	para1 := w.AddParagraph().Justification("center")
+	// add text
+	para1.AddText("中投证券股民个人信息泄露事件").Font("SimHei", "SimHei", "SimHei", "").Size("40").SizeCs("44")
+	w.AddParagraph().Justification("center").AddText("").Font("SimHei", "SimHei", "SimHei", "").Size("40").SizeCs("44")
+
+	w.AddParagraph().
+		NumPr("1", "0").
+		NumFont("SimHei", "SimHei", "SimHei", "").
+		NumSize("32").
+		AddText("事件描述").
+		Font("SimHei", "SimHei", "SimHei", "").
+		Size("32")
+
+	// para1.AddText("size").Size("44").AddTab()
+
+	// pic := w.AddParagraph().Justification("center")
+	// pic.AddInlineDrawingFrom("data/1.png")
+	// pic.AddInlineDrawingFrom("data/2.png")
+	// pic.AddInlineDrawingFrom("data/3.png")
+	// pic.AddInlineDrawingFrom("data/4.png")
+	// pic.AddInlineDrawingFrom("data/5.png")
+	f, err = os.Create("generated.docx")
+	// save to file
+	if err != nil {
+		panic(err)
+	}
+	_, err = w.WriteTo(f)
+	if err != nil {
+		panic(err)
+	}
+	err = f.Close()
+	if err != nil {
+		panic(err)
+	}
+}
+
+func main2() {
 	fileLocation := flag.String("f", "new-file.docx", "file location")
 	analyzeOnly := flag.Bool("a", false, "analyze file only")
 	clean := flag.Bool("c", false, "clean mode (keep text and picture only)")
