@@ -39,6 +39,7 @@ type PgSz struct {
 	H int `xml:"w:h,attr"` // high of paper
 }
 
+// PgMar show the page margin
 type PgMar struct {
 	Top    int `xml:"w:top,attr"`
 	Left   int `xml:"w:left,attr"`
@@ -49,10 +50,12 @@ type PgMar struct {
 	Gutter int `xml:"w:gutter,attr"`
 }
 
+// Cols show the number of columns
 type Cols struct {
 	Space int `xml:"w:space,attr"`
 }
 
+// DocGrid show the document grid
 type DocGrid struct {
 	Type      string `xml:"w:type,attr"`
 	LinePitch int    `xml:"w:linePitch,attr"`
@@ -134,6 +137,7 @@ func (pgsz *PgSz) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	return err
 }
 
+// UnmarshalXML ...
 func (pgmar *PgMar) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var err error
 
@@ -183,6 +187,7 @@ func (pgmar *PgMar) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	return err
 }
 
+// UnmarshalXML ...
 func (cols *Cols) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var err error
 
@@ -202,6 +207,7 @@ func (cols *Cols) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	return err
 }
 
+// UnmarshalXML ...
 func (dg *DocGrid) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var err error
 
