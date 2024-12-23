@@ -24,13 +24,14 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/fumiama/go-docx"
 	"io"
 	"os"
 	"regexp"
 	"strconv"
 	"strings"
 
-	"github.com/fumiama/go-docx"
+	"github.com/l0g1n/go-docx"
 )
 
 func main() {
